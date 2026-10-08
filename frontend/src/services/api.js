@@ -171,3 +171,72 @@ export const productService = {
     return handleResponse(res);
   }
 };
+
+export const orderService = {
+  async placeOrder(orderData) {
+    const res = await fetch(`${API_BASE_URL}/orders`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeader()
+      },
+      body: JSON.stringify(orderData)
+    });
+    return handleResponse(res);
+  },
+
+  async getOrders(params = {}) {
+    const query = new URLSearchParams(params).toString();
+    const url = query ? `${API_BASE_URL}/orders?${query}` : `${API_BASE_URL}/orders`;
+    const res = await fetch(url, {
+      headers: { ...getAuthHeader() }
+    });
+    return handleResponse(res);
+  },
+
+  async getOrderById(orderId) {
+    const res = await fetch(`${API_BASE_URL}/orders/${orderId}`, {
+      headers: { ...getAuthHeader() }
+    });
+    return handleResponse(res);
+  },
+
+  async updateDeliveryStatus(orderId, status, note = '') {
+    const res = await fetch(`${API_BASE_URL}/orders/${orderId}/status`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeader()
+      },
+      body: JSON.stringify({ status, note })
+    });
+    return handleResponse(res);
+  },
+
+  async cancelOrder(orderId, reason = '') {
+    const res = await fetch(`${API_BASE_URL}/orders/${orderId}/cancel`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeader()
+      },
+      body: JSON.stringify({ reason })
+    });
+    return handleResponse(res);
+  },
+
+  async getPaymentHistory() {
+    const res = await fetch(`${API_BASE_URL}/payments/payments/history`, {
+      headers: { ...getAuthHeader() }
+    });
+    return handleResponse(res);
+  },
+
+  async getPaymentConfirmation(transactionId) {
+    const res = await fetch(`${API_BASE_URL}/payments/payments/txn/${transactionId}`, {
+      headers: { ...getAuthHeader() }
+    });
+    return handleResponse(res);
+  }
+};
+

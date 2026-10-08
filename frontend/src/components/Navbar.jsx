@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { authService } from '../services/api';
+import { useCart } from '../context/CartContext';
 import './Navbar.css';
 
 function Navbar() {
   const [user, setUser] = useState(authService.getCurrentUser());
+  const { cartCount } = useCart();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -33,6 +35,28 @@ function Navbar() {
             className={`fh-link ${location.pathname === '/products' || location.pathname === '/' ? 'active' : ''}`}
           >
             🌾 Browse Products
+          </Link>
+
+          <Link
+            to="/cart"
+            className={`fh-link fh-cart-link ${location.pathname === '/cart' ? 'active' : ''}`}
+          >
+            🛒 Review Cart
+            <span className="fh-cart-count">{cartCount}</span>
+          </Link>
+
+          <Link
+            to="/orders"
+            className={`fh-link ${location.pathname === '/orders' ? 'active' : ''}`}
+          >
+            📦 Orders & Delivery
+          </Link>
+
+          <Link
+            to="/payments"
+            className={`fh-link ${location.pathname === '/payments' ? 'active' : ''}`}
+          >
+            💳 Payment History
           </Link>
 
           {user && (

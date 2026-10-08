@@ -175,3 +175,26 @@
 .fh-btn-logout:hover {
   background: #fef2f2;
 }
+
+.fh-cart-link {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: #f0fdf4;
+  color: #1b4332 !important;
+  font-weight: 600 !important;
+  border: 1px solid #bbf7d0;
+  position: relative;
+}
+
+.fh-cart-count {
+  background: #1b4332;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.12rem 0.5rem;
+  border-radius: 9999px;
+  min-width: 18px;
+  text-align: center;
+}
+

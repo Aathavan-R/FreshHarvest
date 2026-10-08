@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { productService } from '../services/api';
+import { useCart } from '../context/CartContext';
 import './Products.css';
 
 function Products() {
+  const { addToCart, cartItems } = useCart();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([
     'All',
@@ -224,12 +226,18 @@ function Products() {
                       <span className="per-unit">/{item.unit}</span>
                     </div>
 
-                    <button
-                      className="add-to-cart-btn"
-                      onClick={() => alert(`Added ${item.name} to cart!`)}
-                    >
-                      + Add to Cart
-                    </button>
+                    {(() => {
+                      const inCart = cartItems.find((c) => (c._id || c.id) === item._id);
+                      return (
+                        <button
+                          className={`add-to-cart-btn ${inCart ? 'in-cart' : ''}`}
+                          onClick={() => addToCart(item, 1)}
+                          title={inCart ? `Currently ${inCart.quantity} in cart. Click to add more.` : 'Add to cart'}
+                        >
+                          {inCart ? `✓ In Cart (${inCart.quantity}) +` : '+ Add to Cart'}
+                        </button>
+                      );
+                    })()}
                   </div>
                 </div>
               </article>
